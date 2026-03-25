@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gupta Fast Food - Best Fast Food in Town</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.3em;
+        }
+
+        /* NOTE Banner */
+        .note-banner {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(231,76,60,0.4);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border-color: #ff6b6b;
+        }
+
+        .menu-item h3 {
+            font-size: 1.6em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #d4edda, #c8e6c9);
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(39,174,96,0.3);
+        }
+
+        .half-full-tags {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .half-full-tags span {
+            background: #fff3cd;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .order-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 35px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 25px rgba(255,107,107,0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .order-btn.half-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+
+        .order-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 35px rgba(255,107,107,0.6);
+        }
+
+        .order-btn.half-btn:hover {
+            box-shadow: 0 10px 35px rgba(52,152,219,0.6);
+        }
+
+        .contact-section {
+            background: white;
+            border-radius: 25px;
+            padding: 45px;
+            text-align: center;
+            margin: 50px 0;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .contact-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+        }
+
+        .phone {
+            font-size: 2em;
+            color: #27ae60;
+            margin: 20px 0;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            padding: 15px 30px;
+            background: #d4edda;
+            border-radius: 50px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            margin: 10% auto;
+            padding: 45px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            animation: modalSlideIn 0.4s ease;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-100px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .close {
+            color: #999;
+            float: right;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #e74c3c;
+        }
+
+        .upi-details {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px solid #bbdefb;
+        }
+
+        .upi-title {
+            font-size: 1.4em;
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .upi-id {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #1976d2;
+            word-break: break-all;
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #2196f3;
+            box-shadow: 0 4px 20px rgba(33,150,243,0.2);
+        }
+
+        .confirm-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 35px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 8px 30px rgba(39,174,96,0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .confirm-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(39,174,96,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.2em; }
+            .menu-grid { grid-template-columns: 1fr; gap: 20px; }
+            .menu-item { padding: 25px; }
+            .note-banner { font-size: 1.1em; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍔 Gupta Fast Food 🍟</h1>
+        <p>Fast. Fresh. Delicious. Order Now!</p>
+    </div>
+
+    <!-- NOTE Banner - Home Delivery Notice -->
+    <div class="note-banner">
+        📦 NOTE: HOME DELIVERY AVAILABLE IN 2 KM ONLY
+    </div>
+
+    <div class="container">
+        <div class="menu-grid" id="menuGrid">
+            <!-- Menu items populated by JavaScript -->
+        </div>
+
+        <div class="contact-section">
+            <h2>CONTACT & ORDERS</h2>
+            <a href="tel:+919877003607" class="phone">📞 9877003607</a>
+            <p>Call or WhatsApp for Orders & Queries</p>
+        </div>
+    </div>
+
+    <!-- UPI Payment Modal -->
+    <div id="upiModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>💰 UPI PAYMENT DETAILS</h2>
+            <div class="upi-details">
+                <div class="upi-title">ORDER ITEM</div>
+                <div style="font-size: 1.5em; color: #e74c3c; font-weight: bold; margin: 15px 0;">
+                    <span id="selectedItem"></span>
+                </div>
+                <div class="upi-title">AMOUNT TO PAY</div>
+                <div style="font-size: 2em; color: #27ae60; font-weight: bold; margin: 15px 0;">
+                    ₹<span id="selectedPrice"></span>
+                </div>
+                <hr style="margin: 25px 0;">
+                <div class="upi-title">UPI ID</div>
+                <div class="upi-id">9877003607@ptaxis</div>
+                <p style="font-size: 1.1em; color: #666; margin-top: 15px;">
+                    Pay the exact amount shown above
+                </p>
+            </div>
+            <button class="confirm-btn" onclick="confirmPayment()">
+                ✅ CONFIRM PAYMENT
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const menuItems = [
+            // Single price items
+            { name: "Paneer Sandwich", price: "100", size: "" },
+            { name: "Grilled Sandwich", price: "60", size: "" },
+            { name: "Grilled Patty", price: "30", size: "" },
+            { name: "Simple Patty", price: "20", size: "" },
+            { name: "Finger Chips", price: "60", size: "" },
+            { name: "White Sauce Pasta", price: "80", size: "" },
+            { name: "Red Sauce Pasta", price: "60", size: "" },
+            { name: "Burger Veg", price: "20", size: "" },
+            { name: "Burger Paneer", price: "30", size: "" },
+            { name: "Veg Noodle", price: "60", size: "" },
+            { name: "Paneer Noodle", price: "80", size: "" },
+            { name: "Veg Soup", price: "40", size: "" },
+            { name: "Duplex", price: "180", size: "" },
+            { name: "Pastry", price: "20-30", size: "" },
+            { name: "Cake", price: "250-450", size: "" },
+
+            // Half/Full items - LOW PRICE = HALF, HIGH PRICE = FULL
+            { name: "Spring Roll", halfPrice: "20", fullPrice: "40", size: "Half/Full" },
+            { name: "Momos", halfPrice: "30", fullPrice: "60", size: "Half/Full" },
+            { name: "Fry Momos", halfPrice: "30", fullPrice: "60", size: "Half/Full" },
+            { name: "Manchurian (Gravy/Dry)", halfPrice: "40", fullPrice: "80", size: "Half/Full" },
+            { name: "Cheese Chilly", halfPrice: "60", fullPrice: "140", size: "Half/Full" },
+            { name: "Paneer Chilly", halfPrice: "70", fullPrice: "140", size: "Half/Full" },
+            { name: "Chilli Potato", halfPrice: "30", fullPrice: "60", size: "Half/Full" }
+        ];
+
+        let currentOrderSize = '';
+
+        // Populate menu
+        const menuGrid = document.getElementById('menuGrid');
+        menuItems.forEach((item) => {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'menu-item';
+            
+            if (item.halfPrice && item.fullPrice) {
+                menuItem.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <div class="half-full-tags">
+                        <span>Half</span> | <span>Full</span>
+                    </div>
+                    <div class="price" style="font-size: 1.4em;">Half: ₹${item.halfPrice} | Full: ₹${item.fullPrice}</div>
+                    <button class="order-btn half-btn" style="margin-bottom: 10px;" 
+                            onclick="selectSize('${item.name}', '${item.halfPrice}', 'Half')">
+                        🛒 HALF (₹${item.halfPrice})
+                    </button>
+                    <button class="order-btn" onclick="selectSize('${item.name}', '${item.fullPrice}', 'Full')">
+                        🛒 FULL (₹${item.fullPrice})
+                    </button>
+                `;
+            } else {
+                menuItem.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <div class="price">₹${item.price}</div>
+                    <button class="order-btn" onclick="showUpiModal('${item.name}', '${item.price}')">
+                        🛒 ORDER NOW
+                    </button>
+                `;
+            }
+            
+            menuGrid.appendChild(menuItem);
+        });
+
+        function selectSize(itemName, price, size) {
+            currentOrderSize = size;
+            showUpiModal(itemName, price);
+        }
+
+        function showUpiModal(itemName, price) {
+            const displayName = currentOrderSize ? `${itemName} (${currentOrderSize})` : itemName;
+            document.getElementById('selectedItem').textContent = displayName;
+            document.getElementById('selectedPrice').textContent = price;
+            document.getElementById('upiModal').style.display = 'block';
+        }
+
+        function confirmPayment() {
+            const itemName = document.getElementById('selectedItem').textContent;
+            const price = document.getElementById('selectedPrice').textContent;
+            
+            const message = `🍔 *GUPTA FAST FOOD - NEW ORDER* 🍟
+
+🔥 *Item:* ${itemName}
+💰 *Amount:* ₹${price}
+💳 *UPI ID:* 9877003607@ptaxis
+⏰ *Order Time:* ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}
+
+✅ *PAYMENT CONFIRMED* - Prepare Order Immediately!
+📦 *Home Delivery: 2KM Only*
+
+📞 Contact: 9877003607`;
+
+            const whatsappNumber = "9877003607";
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            document.getElementById('upiModal').style.display = 'none';
+            window.open(whatsappURL, '_blank');
+            
+            setTimeout(() => {
+                alert('🎉 Order Confirmed! WhatsApp message sent successfully! ✅');
+            }, 500);
+        }
+
+        // Close modal functions
+        document.querySelector('.close').onclick = () => {
+            document.getElementById('upiModal').style.display = 'none';
+            currentOrderSize = '';
+        }
+
+        window.onclick = (event) => {
+            if (event.target.id === 'upiModal') {
+                document.getElementById('upiModal').style.display = 'none';
+                currentOrderSize = '';
+            }
+        }
+    </script>
+</body>
+</html>
